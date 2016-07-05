@@ -7,7 +7,10 @@ var helpers = require('./helpers');
 const ENV = process.env.NODE_ENV = process.env.ENV = 'development';
 
 module.exports = webpackMerge(commonConfig, {
-  devtool: 'cheap-module-eval-source-map',
+  // TODO: This is broken currently, un-comment when fixed
+  // https://github.com/webpack/webpack/issues/2145
+  //devtool: 'cheap-module-eval-source-map',
+  devtool: 'inline-source-map',
 
   output: {
     path: helpers.root('dist'),
