@@ -6,7 +6,7 @@ var argv   = require('yargs').argv
 
 var template = _.template
 var parent   = argv.parent || ''
-var _root    = path.resolve(__dirname, '..', '..', 'src', parent)
+var _root    = path.resolve(__dirname, '..', '..', 'src', 'app', parent)
 
 var COMPONENT = 'Component'
 var DIRECTIVE = 'Directive'
