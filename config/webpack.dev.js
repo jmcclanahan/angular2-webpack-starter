@@ -10,7 +10,7 @@ module.exports = webpackMerge(commonConfig, {
   // TODO: This is broken currently, un-comment when fixed
   // https://github.com/webpack/webpack/issues/2145
   //devtool: 'cheap-module-eval-source-map',
-  devtool: 'inline-source-map',
+  devtool: '#inline-source-map',
 
   output: {
     path: helpers.root('dist'),
