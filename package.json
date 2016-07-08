@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "A webpack starter for Angular 2",
   "scripts": {
-    "start": "webpack-dev-server --inline --progress --port 8080",
+    "start": "webpack-dev-server",
     "test": "karma start",
-    "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
+    "build": "rimraf dist && webpack --progress --profile --bail",
+    "stats": "webpack --profile --json > stats.json",
     "postinstall": "typings install",
     "lint": "tslint \"src/**/*.ts\" || true",
     "generate:component": "node ./config/templates/generateTemplate.js --template Component",

@@ -4,13 +4,11 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var commonConfig = require('./webpack.common.js');
 var helpers = require('./helpers');
 
-const ENV = process.env.NODE_ENV = process.env.ENV = 'development';
-
 module.exports = webpackMerge(commonConfig, {
   // TODO: This is broken currently, un-comment when fixed
   // https://github.com/webpack/webpack/issues/2145
   //devtool: 'cheap-module-eval-source-map',
-  devtool: '#inline-source-map',
+  devtool: 'cheap-module-source-map',
 
   output: {
     path: helpers.root('dist'),
@@ -23,13 +21,16 @@ module.exports = webpackMerge(commonConfig, {
     new ExtractTextPlugin('[name].css'),
     new webpack.DefinePlugin({
       'process.env': {
-        'ENV': JSON.stringify(ENV)
+        'ENV': JSON.stringify(process.env.ENV)
       }
     })
   ],
 
   devServer: {
     historyApiFallback: true,
-    stats: 'minimal'
+    stats: 'minimal',
+    inline: true,
+    progress: true,
+    port: '8080'
   }
 })

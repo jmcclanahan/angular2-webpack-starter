@@ -5,9 +5,9 @@ var helpers = require('./helpers');
 
 module.exports = {
   entry: {
-    'polyfills': './src/polyfills.ts',
-    'vendor': './src/vendor.ts',
-    'app': './src/main.ts'
+    app: helpers.root('src/main.ts'),
+    vendor: helpers.root('src/vendor.ts'),
+    polyfills: helpers.root('src/polyfills.ts')
   },
 
   resolve: {
@@ -15,6 +15,7 @@ module.exports = {
   },
 
   module: {
+
     loaders: [
       {
         test: /\.ts$/,
@@ -22,7 +23,8 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        loader: 'html'
+        loader: 'html',
+        exclude: [helpers.root('src/index.html')]
       },
       {
         test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
@@ -43,11 +45,13 @@ module.exports = {
 
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
-      name: ['vendor', 'polyfills']
+      names: ['vendor', 'polyfills', 'manifest'],
+      minChunks: Infinity
     }),
 
     new HtmlWebpackPlugin({
-      template: 'src/index.html'
+      template: helpers.root('src/index.html'),
+      chunksSortMode: 'dependency'
     })
   ]
 };
