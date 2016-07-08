@@ -1,50 +1,51 @@
-var fs     = require('fs')
-var path   = require('path')
-var mkdirp = require('mkdirp')
-var _      = require('lodash')
-var argv   = require('yargs').argv
+const fs     = require('fs')
+const path   = require('path')
+const mkdirp = require('mkdirp')
+const _      = require('lodash')
+const argv   = require('yargs').argv
+const helpers = require('../helpers')
 
-var template = _.template
-var parent   = argv.parent || ''
-var _root    = path.resolve(__dirname, '..', '..', 'src', 'app', parent)
+const template = _.template
+const parent   = argv.parent || ''
+const _root    = helpers.root('src', 'app', parent)
 
-var COMPONENT = 'Component'
-var DIRECTIVE = 'Directive'
-var SERVICE   = 'Service'
-var ENUM      = 'Enum'
-var INTERFACE = 'Interface'
-var PIPE      = 'Pipe'
+const COMPONENT = 'Component'
+const DIRECTIVE = 'Directive'
+const SERVICE   = 'Service'
+const ENUM      = 'Enum'
+const INTERFACE = 'Interface'
+const PIPE      = 'Pipe'
 
 // Templates
-var COMPONENT_TEMPLATE      = path.resolve(__dirname, 'temp.component.tpl')
-var COMPONENT_HTML_TEMPLATE = path.resolve(__dirname, 'temp.component.html.tpl')
-var COMPONENT_CSS_TEMPLATE  = path.resolve(__dirname, 'temp.component.css.tpl')
-var COMPONENT_SPEC_TEMPLATE = path.resolve(__dirname, 'temp.component.spec.tpl')
-var DIRECTIVE_TEMPLATE      = path.resolve(__dirname, 'temp.directive.tpl')
-var DIRECTIVE_SPEC_TEMPLATE = path.resolve(__dirname, 'temp.directive.spec.tpl')
-var SERVICE_TEMPLATE        = path.resolve(__dirname, 'temp.service.tpl')
-var SERVICE_SPEC_TEMPLATE   = path.resolve(__dirname, 'temp.service.spec.tpl')
-var ENUM_TEMPLATE           = path.resolve(__dirname, 'temp.enum.tpl')
-var INTERFACE_TEMPLATE      = path.resolve(__dirname, 'temp.tpl')
-var PIPE_TEMPLATE           = path.resolve(__dirname, 'temp.pipe.tpl')
-var PIPE_SPEC_TEMPLATE      = path.resolve(__dirname, 'temp.pipe.spec.tpl')
+const COMPONENT_TEMPLATE      = path.resolve(__dirname, 'temp.component.tpl')
+const COMPONENT_HTML_TEMPLATE = path.resolve(__dirname, 'temp.component.html.tpl')
+const COMPONENT_CSS_TEMPLATE  = path.resolve(__dirname, 'temp.component.css.tpl')
+const COMPONENT_SPEC_TEMPLATE = path.resolve(__dirname, 'temp.component.spec.tpl')
+const DIRECTIVE_TEMPLATE      = path.resolve(__dirname, 'temp.directive.tpl')
+const DIRECTIVE_SPEC_TEMPLATE = path.resolve(__dirname, 'temp.directive.spec.tpl')
+const SERVICE_TEMPLATE        = path.resolve(__dirname, 'temp.service.tpl')
+const SERVICE_SPEC_TEMPLATE   = path.resolve(__dirname, 'temp.service.spec.tpl')
+const ENUM_TEMPLATE           = path.resolve(__dirname, 'temp.enum.tpl')
+const INTERFACE_TEMPLATE      = path.resolve(__dirname, 'temp.tpl')
+const PIPE_TEMPLATE           = path.resolve(__dirname, 'temp.pipe.tpl')
+const PIPE_SPEC_TEMPLATE      = path.resolve(__dirname, 'temp.pipe.spec.tpl')
 
 // Files To Create
-var COMPONENT_FILE      = `${_root}/${argv.name}/${argv.name}.component.ts`
-var COMPONENT_HTML_FILE = `${_root}/${argv.name}/${argv.name}.component.html`
-var COMPONENT_CSS_FILE  = `${_root}/${argv.name}/${argv.name}.component.css`
-var COMPONENT_SPEC_FILE = `${_root}/${argv.name}/${argv.name}.component.spec.ts`
-var DIRECTIVE_FILE      = `${_root}/${argv.name}.directive.ts`
-var DIRECTIVE_SPEC_FILE = `${_root}/${argv.name}.directive.spec.ts`
-var SERVICE_FILE        = `${_root}/${argv.name}.service.ts`
-var SERVICE_SPEC_FILE   = `${_root}/${argv.name}.service.spec.ts`
-var ENUM_FILE           = `${_root}/${argv.name}.enum.ts`
-var INTERFACE_FILE      = `${_root}/${argv.name}.ts`
-var PIPE_FILE           = `${_root}/${argv.name}.pipe.ts`
-var PIPE_SPEC_FILE      = `${_root}/${argv.name}.pipe.spec.ts`
+const COMPONENT_FILE      = path.resolve(_root, argv.name, `${argv.name}.component.ts`)
+const COMPONENT_HTML_FILE = path.resolve(_root, argv.name, `${argv.name}.component.html`)
+const COMPONENT_CSS_FILE  = path.resolve(_root, argv.name, `${argv.name}.component.css`)
+const COMPONENT_SPEC_FILE = path.resolve(_root, argv.name, `${argv.name}.component.spec.ts`)
+const DIRECTIVE_FILE      = path.resolve(_root, `${argv.name}.directive.ts`)
+const DIRECTIVE_SPEC_FILE = path.resolve(_root, `${argv.name}.directive.spec.ts`)
+const SERVICE_FILE        = path.resolve(_root, `${argv.name}.service.ts`)
+const SERVICE_SPEC_FILE   = path.resolve(_root, `${argv.name}.service.spec.ts`)
+const ENUM_FILE           = path.resolve(_root, `${argv.name}.enum.ts`)
+const INTERFACE_FILE      = path.resolve(_root, `${argv.name}.ts`)
+const PIPE_FILE           = path.resolve(_root, `${argv.name}.pipe.ts`)
+const PIPE_SPEC_FILE      = path.resolve(_root, `${argv.name}.pipe.spec.ts`)
 
-var files = new Map()
-var options = {
+const files = new Map()
+const options = {
   'name': argv.name,
   'classifiedName': argv.name.charAt(0).toUpperCase() + argv.name.slice(1),
   'interfacePrefix': 'I'
@@ -84,9 +85,9 @@ switch(argv.template) {
 createFiles()
 
 function createDirectory() {
-  var path = argv.template === COMPONENT ? `${_root}/${argv.name}` : _root
-  mkdirp(path, function(err) {
-    if (err) throw err
+  const dir = argv.template === COMPONENT ? path.resolve(_root, argv.name) : _root
+  mkdirp(dir, function(err) {
+    if (err) { throw err }
   })
 }
 
@@ -94,7 +95,7 @@ function createFiles() {
   for (let [key, value] of files) {
     fs.readFile(key, "utf8", function(err, data) {
       if (err) { throw err }
-      var compiled = template(data)
+      const compiled = template(data)
       fs.appendFile(value, compiled(options))
     })
   }
