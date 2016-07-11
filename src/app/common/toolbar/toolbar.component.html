@@ -1,0 +1,14 @@
+<md-toolbar color="toolbar-color">
+  <span>State Based Systems</span>
+  <div [ngSwitch]="toolbarType">
+
+    <div *ngSwitchCase="'Example Page 1'">
+      <!-- page specific toolbar component goes here -->
+    </div>
+
+    <div *ngSwitchCase="'Example Page 2'">
+      <!-- page specific toolbar component goes here -->
+    </div>
+
+  </div>
+</md-toolbar>
