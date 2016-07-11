@@ -1,8 +1,8 @@
-const fs     = require('fs')
-const path   = require('path')
-const mkdirp = require('mkdirp')
-const _      = require('lodash')
-const argv   = require('yargs').argv
+const fs      = require('fs')
+const path    = require('path')
+const mkdirp  = require('mkdirp')
+const _       = require('lodash')
+const argv    = require('yargs').argv
 const helpers = require('../helpers')
 
 const template = _.template
