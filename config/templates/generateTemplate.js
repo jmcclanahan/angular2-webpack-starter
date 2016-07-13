@@ -51,8 +51,6 @@ const options = {
   'interfacePrefix': 'I'
 }
 
-createDirectory()
-
 switch(argv.template) {
   case COMPONENT:
     files.set(COMPONENT_TEMPLATE, COMPONENT_FILE)
@@ -84,19 +82,18 @@ switch(argv.template) {
 
 createFiles()
 
-function createDirectory() {
+function createFiles() {
   const dir = argv.template === COMPONENT ? path.resolve(_root, argv.name) : _root
+
   mkdirp(dir, function(err) {
     if (err) { throw err }
-  })
-}
 
-function createFiles() {
-  for (let [key, value] of files) {
-    fs.readFile(key, "utf8", function(err, data) {
-      if (err) { throw err }
-      const compiled = template(data)
-      fs.appendFile(value, compiled(options))
-    })
-  }
+    for (let [key, value] of files) {
+      fs.readFile(key, "utf8", function(err, data) {
+        if (err) { throw err }
+        const compiled = template(data)
+        fs.appendFile(value, compiled(options))
+      })
+    }
+  })
 }
