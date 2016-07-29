@@ -1,6 +1,6 @@
 {
   "name": "angular2-webpack-starter",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A webpack starter for Angular 2",
   "scripts": {
     "start": "webpack-dev-server",
@@ -16,7 +16,7 @@
     "generate:interface": "ng2t --type interface",
     "generate:pipe": "ng2t --type pipe"
   },
-  "author": "jmcclanahan",
+  "author": "Jake McClanahan",
   "license": "MIT",
   "dependencies": {
     "@angular/common": "2.0.0-rc.4",
